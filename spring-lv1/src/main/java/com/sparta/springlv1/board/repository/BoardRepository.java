@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     Optional<Board> findFirstByTitleAndPasswordAndUserNameOrderByCreateDateDesc(String title, String password, String userName);
-    List<Board> findAllByOOrderByCreateDateDesc();
+    List<Board> findAllByOrderByIdDesc();
+
 }

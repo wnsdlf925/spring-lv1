@@ -4,6 +4,7 @@ import com.sparta.springlv1.board.dto.BoardRequestDto;
 import com.sparta.springlv1.board.dto.BoardResponseDto;
 import com.sparta.springlv1.board.repository.BoardRepository;
 import com.sparta.springlv1.entity.Board;
+import com.sparta.springlv1.global.CommonResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,13 +35,14 @@ public class BoardServiceImpl implements BoardService{
         return boardRepository
                 .findFirstByTitleAndPasswordAndUserNameOrderByCreateDateDesc(board.getTitle(),board.getPassword(),board.getUserName())
                 .map(BoardResponseDto::from)
-                .orElseThrow(() -> new IllegalArgumentException("error"));
+                .orElseThrow(() -> new IllegalArgumentException("생성 실패"));
     }
 
     @Override
     public List<BoardResponseDto> getBoardlist() {
 
-        List<BoardResponseDto> list = boardRepository.findAllByOOrderByCreateDateDesc().stream()
+        List<BoardResponseDto> list = boardRepository.findAllByOrderByIdDesc()
+                .stream()
                 .map(BoardResponseDto::from)
                 .collect(Collectors.toList());
 
@@ -66,7 +68,7 @@ public class BoardServiceImpl implements BoardService{
                         new IllegalArgumentException("error"));
 
         if(!boardRequestDto.password().equals(board.getPassword())){
-            throw new IllegalArgumentException("error");
+            throw new IllegalArgumentException("비밀번호 불일치");
         }
 
         board.setContents(boardRequestDto.contents());
@@ -79,19 +81,19 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public String deleteBoard(BoardRequestDto boardRequestDto) {
+    public CommonResponseDto deleteBoard(BoardRequestDto boardRequestDto) {
 
         Board board = boardRepository.findById(boardRequestDto.id())
                 .orElseThrow(()->
-                        new IllegalArgumentException("error"));
+                        new IllegalArgumentException("삭제된 게시물"));
 
         if(!boardRequestDto.password().equals(board.getPassword())){
-            throw new IllegalArgumentException("error");
+            throw new IllegalArgumentException("비밀번호 불일치");
         }
 
         boardRepository.delete(board);
 
 
-        return "success";
+        return new CommonResponseDto("success");
     }
 }
