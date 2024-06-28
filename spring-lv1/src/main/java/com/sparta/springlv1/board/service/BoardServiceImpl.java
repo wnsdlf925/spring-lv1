@@ -24,7 +24,7 @@ public class BoardServiceImpl implements BoardService{
     public BoardResponseDto postBoard(BoardRequestDto boardRequestDto) {
 
 
-        Board board = boardRequestDto.from(boardRequestDto);
+        Board board = Board.from(boardRequestDto);
         try {
             boardRepository.save(board);
         } catch (Exception e) {

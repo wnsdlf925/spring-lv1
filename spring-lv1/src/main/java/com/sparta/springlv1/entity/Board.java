@@ -45,19 +45,17 @@ public class Board {
     @Temporal(TemporalType.DATE)
     private LocalDate createDate;
 
-//    public BoardResponseDto from(Board board) {
-//        return BoardResponseDto.builder()
-//                .id(board.getId())
-//                .title(board.getTitle())
-//                .userName(board.getUserName())
-//                .contents(board.getContents())
-//                .createDate(convertToDate(board.getCreateDate()))
-//                .build();
-//    }
-//    private Date convertToDate(LocalDateTime createDate){
-//        Instant instant = createDate.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant();
-//        return Date.from(instant);
-//    }
-    
+
+
+    public static Board from(BoardRequestDto boardRequestDto) {
+        return Board.builder()
+                .id(boardRequestDto.id())
+                .title(boardRequestDto.title())
+                .userName(boardRequestDto.userName())
+                .password(boardRequestDto.password())
+                .contents(boardRequestDto.contents())
+                .build();
+    }
+
 
 }

@@ -14,15 +14,7 @@ public record BoardRequestDto(
         String password,
         String contents) {
 
-    public static Board from(BoardRequestDto boardRequestDto) {
-        return Board.builder()
-                .id(boardRequestDto.id())
-                .title(boardRequestDto.title())
-                .userName(boardRequestDto.userName())
-                .password(boardRequestDto.password())
-                .contents(boardRequestDto.contents())
-                .build();
-    }
+
 
 
 }
